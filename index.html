@@ -8,30 +8,29 @@
     <style>
         :root {
             --primary-orange: #FF7000;
-            --bg-white: #FFFFFF;
-            --text-black: #222222;
+            --sea-dark: #0077be;
+            --sea-light: #00aaff;
         }
 
         body {
             margin: 0;
             padding: 0;
             font-family: 'Cairo', sans-serif;
-            background-color: var(--bg-white);
-            color: var(--text-black);
+            background: #fff;
+            color: #222;
             overflow-x: hidden;
             text-align: right;
-            -webkit-tap-highlight-color: transparent; /* يمنع اللون الأزرق عند اللمس في الجوال */
         }
 
-        /* البحر الحقيقي المتحرك في الخلفية */
+        /* --- تفاصيل البحر (الأمواج الحقيقية) --- */
         .ocean { 
-            height: 100px; /* الارتفاع على اللابتوب */
+            height: 160px; /* ارتفاع البحر */
             width: 100%;
             position: fixed;
             bottom: 0;
             left: 0;
-            background: #015871;
-            z-index: -1;
+            background: var(--sea-dark);
+            z-index: 5; /* فوق كل شيء إلا الزر والرسالة */
         }
 
         .wave {
@@ -42,7 +41,12 @@
             height: 198px;
             animation: wave 7s cubic-bezier( 0.36, 0.45, 0.63, 0.53) infinite;
             transform: translate3d(0, 0, 0);
-            opacity: 0.1; /* خفيف عشان ما يغطي على النص */
+        }
+
+        .wave:nth-of-type(2) {
+            top: -175px;
+            animation: wave 7s cubic-bezier( 0.36, 0.45, 0.63, 0.53) -.125s infinite, swell 7s ease -1.25s infinite;
+            opacity: 1;
         }
 
         @keyframes wave {
@@ -50,38 +54,23 @@
             100% { margin-left: -1600px; }
         }
 
-        /* إيموجيات الخلفية */
-        .emoji-bg {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: -2;
+        @keyframes swell {
+            0%, 100% { transform: translate3d(0,-25px,0); }
+            50% { transform: translate3d(0,5px,0); }
         }
 
-        .floating-emoji {
-            position: absolute;
-            opacity: 0.2;
-            animation: floatUp 15s infinite linear;
-        }
-
-        @keyframes floatUp {
-            0% { transform: translateY(110vh); }
-            100% { transform: translateY(-10vh); }
-        }
-
-        /* تنسيق الأقسام المتجاوب */
+        /* --- تنسيق الرسالة والظهور --- */
         section {
-            padding: 80px 10%;
-            min-height: auto;
+            padding: 100px 10% 250px 10%; /* فراغ من تحت عشان البحر ما يغطي الكلام */
+            position: relative;
+            z-index: 10;
         }
 
         .reveal {
             opacity: 0;
-            transform: translateY(30px);
-            transition: all 1s ease-out;
-            margin-bottom: 25px;
+            transform: translateY(40px);
+            transition: all 1.2s ease-out;
+            margin-bottom: 30px;
         }
 
         .reveal.active {
@@ -91,43 +80,45 @@
 
         .divider {
             width: 60px;
-            height: 4px;
+            height: 5px;
             background-color: var(--primary-orange);
-            margin: 20px 0;
+            margin: 25px 0;
+            border-radius: 10px;
         }
 
-        h1 { font-size: clamp(1.8rem, 5vw, 3rem); color: var(--primary-orange); }
-        p { font-size: clamp(1rem, 2.5vw, 1.3rem); line-height: 1.8; }
+        h1 { font-size: 2.5rem; color: var(--primary-orange); }
+        p { font-size: 1.4rem; line-height: 2; }
 
-        /* زر العيدية المتموج والملفوف 45 درجة */
-        .gift-container {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            padding: 100px 0;
+        /* --- زر العيدية "العائم" فوق البحر --- */
+        .gift-wrapper {
+            position: fixed;
+            bottom: 80px; /* مكانه فوق الأمواج */
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 100; /* أعلى شيء */
+            display: none; /* يظهر بعد ما تنزل تحت */
         }
 
         .gift-trigger-btn {
             background-color: var(--primary-orange);
             color: white;
-            border: none;
-            padding: 20px 40px;
-            font-size: clamp(1.2rem, 3vw, 1.5rem);
+            border: 4px solid #fff;
+            padding: 15px 40px;
+            font-size: 1.5rem;
             font-family: 'Cairo', sans-serif;
-            border-radius: 15px;
+            border-radius: 50px;
             cursor: pointer;
-            box-shadow: 0 10px 20px rgba(255, 112, 0, 0.4);
-            animation: floatingAction 3s infinite ease-in-out;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+            animation: floatingOnSea 3s infinite ease-in-out;
             transform: rotate(45deg);
-            z-index: 10;
         }
 
-        @keyframes floatingAction {
+        @keyframes floatingOnSea {
             0%, 100% { transform: translateY(0) rotate(45deg); }
-            50% { transform: translateY(-15px) rotate(42deg); }
+            50% { transform: translateY(-25px) rotate(42deg); }
         }
 
-        /* نافذة الرمز السري المتجاوبة */
+        /* --- مودال الرمز السري --- */
         .modal {
             display: none;
             position: fixed;
@@ -135,22 +126,21 @@
             left: 50%;
             transform: translate(-50%, -50%);
             background: white;
-            padding: 30px;
-            border: 2px solid var(--primary-orange);
-            border-radius: 25px;
+            padding: 40px;
+            border-radius: 30px;
             z-index: 1000;
             text-align: center;
-            box-shadow: 0 20px 50px rgba(0,0,0,0.3);
+            box-shadow: 0 30px 60px rgba(0,0,0,0.4);
             width: 85%;
             max-width: 400px;
         }
 
         input {
-            padding: 12px;
-            width: 90%;
+            padding: 15px;
+            width: 80%;
             margin: 20px 0;
-            border: 2px solid #eee;
-            border-radius: 12px;
+            border: 2px solid var(--primary-orange);
+            border-radius: 15px;
             text-align: center;
             font-size: 1.2rem;
             outline: none;
@@ -160,57 +150,54 @@
             background: var(--primary-orange);
             color: white;
             border: none;
-            padding: 12px 30px;
-            border-radius: 10px;
+            padding: 12px 35px;
+            border-radius: 12px;
             cursor: pointer;
-            font-family: 'Cairo', sans-serif;
-            font-weight: bold;
+            font-size: 1.1rem;
         }
 
-        #giftResult { display: none; margin-top: 20px; font-weight: bold; color: var(--primary-orange); }
-
-        /* تعديلات الجوال */
-        @media (max-width: 600px) {
-            section { padding: 40px 8%; }
-            .ocean { height: 50px; }
-        }
     </style>
 </head>
 <body>
 
-    <div class="emoji-bg" id="emojiBg"></div>
-    
     <div class="ocean">
         <div class="wave"></div>
         <div class="wave"></div>
     </div>
 
-    <section>
+    <section id="content">
         <h1 class="reveal">حياك الله يا روحي 🌸💫💓</h1>
         <div class="divider reveal"></div>
+        
         <p class="reveal">السلام عليكم و رحمة الله تعالى و بركاته</p>
         <p class="reveal">إلى اعز و اغلى مافي حياتي ~ <span style="color:var(--primary-orange); font-weight:bold;">نهى 💗</span> ~ </p>
+        
         <div class="divider reveal"></div>
-        <p class="reveal">يعلم الله اني احبك حب مايعلم به الا رب العالمين و من حبي لك اني مقدر اوصفه بالاسطر لانها ماتكفي عيد مبارك يقلبي و روحي و حياتي و دنيتي و عيوني و يا احلى من صحى في ليلة العيد و يا نورٌ نوّر على قلبي و يا كل ماتذكرتها ابتسمت زي الطفل عيديتك تحت و ما تستاهلين الا اكثر بس تعرفيني زين 💕</p>
+        
+        <p class="reveal">يعلم الله اني احبك حب مايعلم به الا رب العالمين و من حبي لك اني مقدر اوصفه بالاسطر لانها ماتكفي</p>
+        <p class="reveal">عيد مبارك يقلبي و روحي و حياتي و دنيتي و عيوني</p>
+        <p class="reveal">و يا احلى من صحى في ليلة العيد و يا نورٌ نوّر على قلبي</p>
+        <p class="reveal">و يا كل ماتذكرتها ابتسمت زي الطفل</p>
+        <p class="reveal">عيديتك تحت و ما تستاهلين الا اكثر بس تعرفيني زين 💕</p>
     </section>
 
-    <div class="gift-container">
-        <button class="gift-trigger-btn reveal" onclick="openModal()">عيدية 🎁</button>
+    <div class="gift-wrapper" id="giftWrapper">
+        <button class="gift-trigger-btn" onclick="openModal()">عيدية 🎁</button>
     </div>
 
     <div id="pwdModal" class="modal">
         <h3>أدخلي الرمز السري ✨</h3>
         <input type="text" id="passInput" placeholder="تاريخ ميلادك (8 أرقام)">
         <button class="action-btn" onclick="checkPass()">فتح العيدية</button>
-        <p style="font-size: 0.9rem; margin-top: 15px; color: #777;">تبين الرمز ؟ كلميني يقلبي</p>
-        <div id="giftResult">
-            <p>كود العيدية: <br> [ 0000-0000-0000 ]</p>
+        <p style="color: #888; font-size: 0.9rem; margin-top: 15px;">تبين الرمز ؟ كلميني يقلبي</p>
+        
+        <div id="giftResult" style="display:none; margin-top:20px;">
+            <p style="color:var(--primary-orange); font-weight:bold;">[ 0000-0000-0000 ]</p>
             <button class="action-btn" onclick="copyGift()">نسخ الكود</button>
         </div>
     </div>
 
     <script>
-        // دالة الظهور عند النزول (Scroll Reveal)
         function handleReveal() {
             const reveals = document.querySelectorAll('.reveal');
             reveals.forEach(el => {
@@ -220,24 +207,17 @@
                     el.classList.add('active');
                 }
             });
+
+            // إظهار الزر فقط لما الشخص ينزل لآخر الرسالة
+            const wrapper = document.getElementById('giftWrapper');
+            if (window.scrollY > 300) {
+                wrapper.style.display = 'block';
+            }
         }
+
         window.addEventListener('scroll', handleReveal);
         window.addEventListener('load', handleReveal);
 
-        // إنشاء إيموجيات الخلفية المتطايرة
-        const bg = document.getElementById('emojiBg');
-        const emojis = ['🌸', '✨', '🧡', '🤍'];
-        for (let i = 0; i < 15; i++) {
-            const span = document.createElement('span');
-            span.className = 'floating-emoji';
-            span.innerText = emojis[Math.floor(Math.random() * emojis.length)];
-            span.style.left = Math.random() * 100 + 'vw';
-            span.style.animationDelay = Math.random() * 10 + 's';
-            span.style.fontSize = Math.random() * 20 + 10 + 'px';
-            bg.appendChild(span);
-        }
-
-        // التحكم في الرمز والعيدية
         function openModal() { document.getElementById('pwdModal').style.display = 'block'; }
         
         function checkPass() {
