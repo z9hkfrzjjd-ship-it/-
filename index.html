@@ -20,21 +20,19 @@
             color: var(--text-light);
             overflow-x: hidden;
             text-align: right;
-            position: relative; /* ضروري لعمل إيموجيات الخلفية */
+            position: relative;
         }
 
-        /* تنسيق الأقسام بمسافات كبيرة جداً */
         section {
-            padding: 40vh 10%; /* مسافة عمودية هائلة 40% من طول الشاشة */
+            padding: 40vh 10%;
             min-height: 60vh;
             display: flex;
             flex-direction: column;
             justify-content: center;
-            position: relative; /* ضروري لعمل تأثيرات النصوص */
-            z-index: 10; /* لجعل النص فوق الإيموجيات */
+            position: relative;
+            z-index: 10;
         }
 
-        /* حركة الظهور والاختفاء السلسة */
         .reveal {
             opacity: 0;
             transform: translateY(50px);
@@ -42,18 +40,16 @@
             margin-bottom: 50px;
         }
 
-        /* لما يكون العنصر مرئي */
         .reveal.active {
             opacity: 1;
             transform: translateY(0);
         }
 
-        /* تأثيرات لفت الانتباه للنصوص عند التمرير */
         .reveal p:hover, .reveal h1:hover {
-            transform: scale(1.05); /* تكبير النص قليلاً */
-            color: #FFB37A; /* تغيير اللون للبرتقالي الفاتح */
-            text-shadow: 0 0 15px rgba(255, 112, 0, 0.8); /* إضافة توهج قوي */
-            transition: all 0.3s ease; /* حركة سريعة وناعمة */
+            transform: scale(1.05);
+            color: #FFB37A;
+            text-shadow: 0 0 15px rgba(255, 112, 0, 0.8);
+            transition: all 0.3s ease;
         }
 
         .divider {
@@ -62,22 +58,21 @@
             background-color: var(--primary-orange);
             margin: 40px 0;
             border-radius: 10px;
-            box-shadow: 0 0 10px rgba(255, 112, 0, 0.5); /* إضافة توهج للخط الفاصل */
+            box-shadow: 0 0 10px rgba(255, 112, 0, 0.5);
         }
 
-        h1 { font-size: clamp(2rem, 8vw, 3.5rem); color: var(--primary-orange); margin-bottom: 30px; text-shadow: 0 0 10px rgba(255, 112, 0, 0.5); /* إضافة توهج ناعم للعنوان */ }
-        p { font-size: clamp(1.2rem, 4vw, 1.6rem); line-height: 2.2; max-width: 800px; transition: all 0.3s ease; /* لضمان نعومة تأثير التمرير */ }
+        h1 { font-size: clamp(2rem, 8vw, 3.5rem); color: var(--primary-orange); margin-bottom: 30px; text-shadow: 0 0 10px rgba(255, 112, 0, 0.5); }
+        p { font-size: clamp(1.2rem, 4vw, 1.6rem); line-height: 2.2; max-width: 800px; transition: all 0.3s ease; }
 
-        /* منطقة البحر والزر في نهاية الصفحة فقط */
         .footer-ocean-section {
             position: relative;
-            height: 600px; /* مساحة كبيرة في النهاية */
+            height: 600px;
             background: linear-gradient(to bottom, var(--bg-black), #015871);
             overflow: hidden;
             display: flex;
             justify-content: center;
             align-items: center;
-            z-index: 20; /* لجعل الزر فوق كل شيء */
+            z-index: 20;
         }
 
         .ocean { 
@@ -103,7 +98,6 @@
             100% { margin-left: -1600px; }
         }
 
-        /* الزر يعوم في منطقة النهاية فقط مع تأثيرات لفت الانتباه */
         .gift-trigger-btn {
             background-color: var(--primary-orange);
             color: white;
@@ -117,14 +111,13 @@
             animation: floatingAction 3s infinite ease-in-out;
             transform: rotate(45deg);
             z-index: 100;
-            transition: all 0.3s ease; /* لضمان نعومة تأثير التمرير */
+            transition: all 0.3s ease;
         }
 
-        /* تأثير الزر عند التمرير */
         .gift-trigger-btn:hover {
-            transform: translateY(-10px) rotate(40deg) scale(1.1); /* تكبير وتحريك الزر */
-            box-shadow: 0 20px 40px rgba(255, 112, 0, 0.8); /* زيادة التوهج */
-            animation: shake 0.5s ease-in-out infinite; /* إضافة حركة اهتزاز */
+            transform: translateY(-10px) rotate(40deg) scale(1.1);
+            box-shadow: 0 20px 40px rgba(255, 112, 0, 0.8);
+            animation: shake 0.5s ease-in-out infinite;
         }
 
         @keyframes floatingAction {
@@ -132,14 +125,12 @@
             50% { transform: translateY(-30px) rotate(40deg); }
         }
 
-        /* حركة الاهتزاز للزر */
         @keyframes shake {
             0%, 100% { transform: translateX(0) rotate(40deg) scale(1.1); }
             25% { transform: translateX(-5px) rotate(40deg) scale(1.1); }
             75% { transform: translateX(5px) rotate(40deg) scale(1.1); }
         }
 
-        /* المودال */
         .modal {
             display: none;
             position: fixed;
@@ -154,7 +145,7 @@
             text-align: center;
             width: 85%;
             max-width: 450px;
-            box-shadow: 0 0 30px rgba(255, 112, 0, 0.5); /* إضافة توهج للمودال */
+            box-shadow: 0 0 30px rgba(255, 112, 0, 0.5);
         }
 
         input {
@@ -162,16 +153,16 @@
             width: 85%;
             margin: 25px 0;
             border-radius: 12px;
-            border: 2px solid #ccc; /* إضافة إطار للإدخال */
+            border: 2px solid #ccc;
             font-size: 1.3rem;
             text-align: center;
-            background-color: #333; /* تغيير لون خلفية الإدخال */
-            color: white; /* تغيير لون نص الإدخال */
+            background-color: #333;
+            color: white;
         }
 
         input:focus {
-            border-color: var(--primary-orange); /* تغيير لون الإطار عند التركيز */
-            box-shadow: 0 0 10px rgba(255, 112, 0, 0.5); /* إضافة توهج عند التركيز */
+            border-color: var(--primary-orange);
+            box-shadow: 0 0 10px rgba(255, 112, 0, 0.5);
             outline: none;
         }
 
@@ -179,42 +170,41 @@
             background: var(--primary-orange);
             color: white;
             border: none;
-            padding: 15px 40px;
-            border-radius: 12px;
+            padding: 10px 20px;
+            border-radius: 10px;
             cursor: pointer;
-            font-size: 1.2rem;
+            font-size: 1rem;
             font-weight: bold;
-            transition: all 0.3s ease; /* لضمان نعومة تأثير التمرير */
+            margin: 5px;
         }
 
-        .action-btn:hover {
-            transform: scale(1.05); /* تكبير الزر قليلاً */
-            box-shadow: 0 0 15px rgba(255, 112, 0, 0.8); /* إضافة توهج */
+        .gift-box-item {
+            background: #252525;
+            padding: 15px;
+            border-radius: 15px;
+            margin-top: 15px;
+            border: 1px dashed var(--primary-orange);
         }
 
-        /* تنسيق إيموجيات الخلفية */
         .emoji-bg {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            pointer-events: none; /* لمنع الإيموجيات من التداخل مع التفاعلات */
-            z-index: 1; /* لجعل الإيموجيات خلف النص */
+            pointer-events: none;
+            z-index: 1;
         }
 
         .floating-emoji {
             position: absolute;
             font-size: 2rem;
-            opacity: 0.3; /* جعل الإيموجيات نصف شفافة */
-            animation: floatEmoji 20s linear infinite; /* حركة تطاير عشوائية */
+            opacity: 0.3;
+            animation: floatEmoji 20s linear infinite;
         }
 
         @keyframes floatEmoji {
             0% { transform: translateY(110vh) translateX(0) rotate(0deg); }
-            25% { transform: translateY(75vh) translateX(10vw) rotate(90deg); }
-            50% { transform: translateY(50vh) translateX(-10vw) rotate(180deg); }
-            75% { transform: translateY(25vh) translateX(10vw) rotate(270deg); }
             100% { transform: translateY(-10vh) translateX(0) rotate(360deg); }
         }
 
@@ -224,14 +214,9 @@
 
     <div class="emoji-bg">
         <span class="floating-emoji" style="left: 10%; animation-delay: 0s;">🌸</span>
-        <span class="floating-emoji" style="left: 30%; animation-delay: 5s;">✨</span>
-        <span class="floating-emoji" style="left: 50%; animation-delay: 10s;">🧡</span>
-        <span class="floating-emoji" style="left: 70%; animation-delay: 15s;">🤍</span>
-        <span class="floating-emoji" style="left: 90%; animation-delay: 20s;">🌸</span>
-        <span class="floating-emoji" style="left: 20%; animation-delay: 2s;">✨</span>
-        <span class="floating-emoji" style="left: 40%; animation-delay: 7s;">🧡</span>
-        <span class="floating-emoji" style="left: 60%; animation-delay: 12s;">🤍</span>
-        <span class="floating-emoji" style="left: 80%; animation-delay: 17s;">🌸</span>
+        <span class="floating-emoji" style="left: 40%; animation-delay: 5s;">✨</span>
+        <span class="floating-emoji" style="left: 70%; animation-delay: 10s;">🧡</span>
+        <span class="floating-emoji" style="left: 90%; animation-delay: 15s;">🤍</span>
     </div>
 
     <section>
@@ -269,33 +254,34 @@
     <div id="pwdModal" class="modal">
         <h3 style="color: var(--primary-orange);">أدخلي الرمز السري ✨</h3>
         <input type="text" id="passInput" placeholder="تاريخ ميلادك (8 أرقام)">
-        <button class="action-btn" onclick="checkPass()">فتح العيدية</button>
+        <button class="action-btn" style="padding: 15px 40px; font-size: 1.2rem;" onclick="checkPass()">فتح العيديات</button>
         <p style="color: #888; margin-top: 20px;">تبين الرمز ؟ كلميني يقلبي</p>
+        
         <div id="giftResult" style="display:none; margin-top:20px;">
-            <p style="color:white;">كود العيدية: <br> <span style="font-size:1.5rem; color:var(--primary-orange);">[ 0000-0000-0000 ]</span></p>
-            <button class="action-btn" onclick="copyGift()">نسخ الكود</button>
+            <div class="gift-box-item">
+                <p style="color:white; margin:0;">العيدية الأولى 🎁</p>
+                <p id="code1" style="font-size:1.2rem; color:var(--primary-orange); font-weight:bold; margin:10px 0;">[ الرمز_الأول_هنا ]</p>
+                <button class="action-btn" onclick="copyGift('code1')">نسخ</button>
+            </div>
+            
+            <div class="gift-box-item">
+                <p style="color:white; margin:0;">العيدية الثانية 🎁</p>
+                <p id="code2" style="font-size:1.2rem; color:var(--primary-orange); font-weight:bold; margin:10px 0;">[ الرمز_الثاني_هنا ]</p>
+                <button class="action-btn" onclick="copyGift('code2')">نسخ</button>
+            </div>
         </div>
     </div>
 
     <script>
-        // وظيفة الظهور والاختفاء السلسة
-        const observerOptions = {
-            threshold: 0.2 // العنصر يظهر لما يبين منه 20%
-        };
-
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('active');
-                } else {
-                    entry.target.classList.remove('active'); // يختفي لما تطلعي فوق
-                }
+                if (entry.isIntersecting) entry.target.classList.add('active');
+                else entry.target.classList.remove('active');
             });
-        }, observerOptions);
+        }, { threshold: 0.2 });
 
         document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
 
-        // التحكم في الرمز
         function openModal() { document.getElementById('pwdModal').style.display = 'block'; }
         
         function checkPass() {
@@ -303,15 +289,17 @@
             if (input === '07092009') {
                 document.getElementById('giftResult').style.display = 'block';
                 document.getElementById('passInput').style.display = 'none';
+                document.querySelectorAll('.action-btn')[0].style.display = 'none';
                 document.querySelector('.modal h3').innerText = 'تستاهلين يا كل الغلا! 🎉';
             } else {
                 alert('الرمز غلط، اسألي حبيبك 😉');
             }
         }
 
-        function copyGift() {
-            navigator.clipboard.writeText('0000-0000-0000');
-            alert('تم نسخ العيدية! 🎁');
+        function copyGift(id) {
+            const text = document.getElementById(id).innerText.replace('[ ', '').replace(' ]', '');
+            navigator.clipboard.writeText(text);
+            alert('تم نسخ العيدية بنجاح! 🎁');
         }
     </script>
 </body>
