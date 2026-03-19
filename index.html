@@ -19,164 +19,241 @@
             background-color: var(--bg-white);
             color: var(--text-black);
             overflow-x: hidden;
-            text-align: right; /* كل شيء لليمين */
+            text-align: right;
+            -webkit-tap-highlight-color: transparent; /* يمنع اللون الأزرق عند اللمس في الجوال */
         }
 
-        /* خلفية الإيموجيات المتحركة */
+        /* البحر الحقيقي المتحرك في الخلفية */
+        .ocean { 
+            height: 100px; /* الارتفاع على اللابتوب */
+            width: 100%;
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            background: #015871;
+            z-index: -1;
+        }
+
+        .wave {
+            background: url('https://s3-us-west-2.amazonaws.com/s.cdpn.io/85486/wave.svg') repeat-x; 
+            position: absolute;
+            top: -198px;
+            width: 6400px;
+            height: 198px;
+            animation: wave 7s cubic-bezier( 0.36, 0.45, 0.63, 0.53) infinite;
+            transform: translate3d(0, 0, 0);
+            opacity: 0.1; /* خفيف عشان ما يغطي على النص */
+        }
+
+        @keyframes wave {
+            0% { margin-left: 0; }
+            100% { margin-left: -1600px; }
+        }
+
+        /* إيموجيات الخلفية */
         .emoji-bg {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            z-index: -1;
-            pointer-events: none;
+            z-index: -2;
         }
 
         .floating-emoji {
             position: absolute;
-            font-size: 1.5rem;
-            opacity: 0.15;
-            animation: float 10s infinite linear;
+            opacity: 0.2;
+            animation: floatUp 15s infinite linear;
         }
 
-        @keyframes float {
-            0% { transform: translateY(100vh) rotate(0deg); }
-            100% { transform: translateY(-10vh) rotate(360deg); }
+        @keyframes floatUp {
+            0% { transform: translateY(110vh); }
+            100% { transform: translateY(-10vh); }
         }
 
-        /* تنسيق الأقسام */
+        /* تنسيق الأقسام المتجاوب */
         section {
-            padding: 60px 10%;
-            opacity: 0;
-            transform: translateY(20px);
-            transition: all 0.8s ease-out;
+            padding: 80px 10%;
+            min-height: auto;
         }
 
-        section.show {
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 1s ease-out;
+            margin-bottom: 25px;
+        }
+
+        .reveal.active {
             opacity: 1;
             transform: translateY(0);
         }
 
-        /* خط برتقالي فاصل */
         .divider {
-            width: 50px;
+            width: 60px;
             height: 4px;
             background-color: var(--primary-orange);
             margin: 20px 0;
-            border-radius: 2px;
         }
 
-        h1 { color: var(--primary-orange); font-size: 2.5rem; }
-        p { line-height: 2; font-size: 1.3rem; margin-bottom: 20px; }
+        h1 { font-size: clamp(1.8rem, 5vw, 3rem); color: var(--primary-orange); }
+        p { font-size: clamp(1rem, 2.5vw, 1.3rem); line-height: 1.8; }
 
-        /* مربع العيدية في المنتصف */
+        /* زر العيدية المتموج والملفوف 45 درجة */
         .gift-container {
             display: flex;
             justify-content: center;
             align-items: center;
-            min-height: 400px;
+            padding: 100px 0;
         }
 
-        .gift-card {
-            background: #fff;
-            border: 2px solid var(--primary-orange);
-            padding: 40px;
-            border-radius: 15px;
-            text-align: center;
-            box-shadow: 0 10px 30px rgba(255, 112, 0, 0.1);
-            width: 100%;
-            max-width: 400px;
-        }
-
-        .gift-code-box {
-            background: #fdfdfd;
-            border: 1px dashed var(--primary-orange);
-            padding: 15px;
-            margin-bottom: 20px;
-            font-weight: bold;
-            font-size: 1.5rem;
-            color: var(--text-black);
-            word-break: break-all;
-        }
-
-        .copy-btn {
+        .gift-trigger-btn {
             background-color: var(--primary-orange);
             color: white;
             border: none;
-            padding: 12px 40px;
-            font-size: 1.1rem;
+            padding: 20px 40px;
+            font-size: clamp(1.2rem, 3vw, 1.5rem);
             font-family: 'Cairo', sans-serif;
-            border-radius: 8px;
+            border-radius: 15px;
             cursor: pointer;
-            transition: 0.3s;
+            box-shadow: 0 10px 20px rgba(255, 112, 0, 0.4);
+            animation: floatingAction 3s infinite ease-in-out;
+            transform: rotate(45deg);
+            z-index: 10;
         }
 
-        .copy-btn:hover { background-color: #e66500; transform: scale(1.05); }
+        @keyframes floatingAction {
+            0%, 100% { transform: translateY(0) rotate(45deg); }
+            50% { transform: translateY(-15px) rotate(42deg); }
+        }
 
-        @media (max-width: 768px) {
-            section { padding: 40px 5%; }
-            h1 { font-size: 1.8rem; }
+        /* نافذة الرمز السري المتجاوبة */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: white;
+            padding: 30px;
+            border: 2px solid var(--primary-orange);
+            border-radius: 25px;
+            z-index: 1000;
+            text-align: center;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.3);
+            width: 85%;
+            max-width: 400px;
+        }
+
+        input {
+            padding: 12px;
+            width: 90%;
+            margin: 20px 0;
+            border: 2px solid #eee;
+            border-radius: 12px;
+            text-align: center;
+            font-size: 1.2rem;
+            outline: none;
+        }
+
+        .action-btn {
+            background: var(--primary-orange);
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-family: 'Cairo', sans-serif;
+            font-weight: bold;
+        }
+
+        #giftResult { display: none; margin-top: 20px; font-weight: bold; color: var(--primary-orange); }
+
+        /* تعديلات الجوال */
+        @media (max-width: 600px) {
+            section { padding: 40px 8%; }
+            .ocean { height: 50px; }
         }
     </style>
 </head>
 <body>
 
     <div class="emoji-bg" id="emojiBg"></div>
+    
+    <div class="ocean">
+        <div class="wave"></div>
+        <div class="wave"></div>
+    </div>
 
-    <section id="welcome">
-        <h1>حياك الله يا روحي 🌸💫💓</h1>
-        <div class="divider"></div>
-        <p>انزلي تحت شوي عشان تشوفين وش كاتبه لك..</p>
+    <section>
+        <h1 class="reveal">حياك الله يا روحي 🌸💫💓</h1>
+        <div class="divider reveal"></div>
+        <p class="reveal">السلام عليكم و رحمة الله تعالى و بركاته</p>
+        <p class="reveal">إلى اعز و اغلى مافي حياتي ~ <span style="color:var(--primary-orange); font-weight:bold;">نهى 💗</span> ~ </p>
+        <div class="divider reveal"></div>
+        <p class="reveal">يعلم الله اني احبك حب مايعلم به الا رب العالمين و من حبي لك اني مقدر اوصفه بالاسطر لانها ماتكفي عيد مبارك يقلبي و روحي و حياتي و دنيتي و عيوني و يا احلى من صحى في ليلة العيد و يا نورٌ نوّر على قلبي و يا كل ماتذكرتها ابتسمت زي الطفل عيديتك تحت و ما تستاهلين الا اكثر بس تعرفيني زين 💕</p>
     </section>
 
-    <section id="main-message">
-        <p>السلام عليكم و رحمة الله تعالى و بركاته</p>
-        <p>إلى اعز و اغلى مافي حياتي ~ <span style="color:var(--primary-orange)">نهى 💗</span> ~ </p>
-        <div class="divider"></div>
-        <p>يعلم الله اني احبك حب مايعلم به الا رب العالمين و من حبي لك اني مقدر اوصفه بالاسطر لانها ماتكفي عيد مبارك يقلبي و روحي و حياتي و دنيتي و عيوني و يا احلى من صحى في ليلة العيد و يا نورٌ نوّر على قلبي و يا كل ماتذكرتها ابتسمت زي الطفل عيديتك تحت و ما تستاهلين الا اكثر بس تعرفيني زين 💕</p>
-    </section>
+    <div class="gift-container">
+        <button class="gift-trigger-btn reveal" onclick="openModal()">عيدية 🎁</button>
+    </div>
 
-    <section id="gift-section" class="gift-container">
-        <div class="gift-card">
-            <p style="font-weight: bold;">عيدية نهى 🎁</p>
-            <div class="gift-code-box" id="giftCode">STC-PAY-12345678</div>
-            <button class="copy-btn" onclick="copyGift()">نسخ العيدية</button>
+    <div id="pwdModal" class="modal">
+        <h3>أدخلي الرمز السري ✨</h3>
+        <input type="text" id="passInput" placeholder="تاريخ ميلادك (8 أرقام)">
+        <button class="action-btn" onclick="checkPass()">فتح العيدية</button>
+        <p style="font-size: 0.9rem; margin-top: 15px; color: #777;">تبين الرمز ؟ كلميني يقلبي</p>
+        <div id="giftResult">
+            <p>كود العيدية: <br> [ 0000-0000-0000 ]</p>
+            <button class="action-btn" onclick="copyGift()">نسخ الكود</button>
         </div>
-    </section>
+    </div>
 
     <script>
-        // إنشاء إيموجيات متحركة في الخلفية
-        const emojis = ['🌸', '✨', '🧡', '☁️', '🌙', '🍬'];
-        const bg = document.getElementById('emojiBg');
+        // دالة الظهور عند النزول (Scroll Reveal)
+        function handleReveal() {
+            const reveals = document.querySelectorAll('.reveal');
+            reveals.forEach(el => {
+                const windowHeight = window.innerHeight;
+                const revealTop = el.getBoundingClientRect().top;
+                if (revealTop < windowHeight - 50) {
+                    el.classList.add('active');
+                }
+            });
+        }
+        window.addEventListener('scroll', handleReveal);
+        window.addEventListener('load', handleReveal);
 
-        for (let i = 0; i < 20; i++) {
+        // إنشاء إيموجيات الخلفية المتطايرة
+        const bg = document.getElementById('emojiBg');
+        const emojis = ['🌸', '✨', '🧡', '🤍'];
+        for (let i = 0; i < 15; i++) {
             const span = document.createElement('span');
             span.className = 'floating-emoji';
             span.innerText = emojis[Math.floor(Math.random() * emojis.length)];
             span.style.left = Math.random() * 100 + 'vw';
             span.style.animationDelay = Math.random() * 10 + 's';
-            span.style.fontSize = (Math.random() * 20 + 10) + 'px';
+            span.style.fontSize = Math.random() * 20 + 10 + 'px';
             bg.appendChild(span);
         }
 
-        // حركة الظهور عند النزول
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('show');
-                }
-            });
-        }, { threshold: 0.1 });
+        // التحكم في الرمز والعيدية
+        function openModal() { document.getElementById('pwdModal').style.display = 'block'; }
+        
+        function checkPass() {
+            const input = document.getElementById('passInput').value;
+            if (input === '07092009') {
+                document.getElementById('giftResult').style.display = 'block';
+                document.getElementById('passInput').style.display = 'none';
+                document.querySelector('.modal h3').innerText = 'تستاهلين يا كل الغلا! 🎉';
+            } else {
+                alert('الرمز غلط، اسألي حبيبك 😉');
+            }
+        }
 
-        document.querySelectorAll('section').forEach(section => observer.observe(section));
-
-        // وظيفة النسخ
         function copyGift() {
-            const code = document.getElementById('giftCode').innerText;
-            navigator.clipboard.writeText(code).then(() => {
-                alert('تم نسخ العيدية بنجاح! 🎉');
-            });
+            navigator.clipboard.writeText('0000-0000-0000');
+            alert('تم نسخ العيدية! 🎁');
         }
     </script>
 </body>
