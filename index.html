@@ -3,304 +3,214 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>عيد مبارك يا غالية 💗</title>
+    <title>  عيدية ماما 💕 </title>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet">
     <style>
         :root {
-            --primary-orange: #FF7000;
-            --bg-black: #111111;
-            --text-light: #EEEEEE;
+            --primary: #FF7000;
+            --bg: #111111;
+            --card-bg: rgba(255, 255, 255, 0.05);
+            --text: #EEEEEE;
+            --transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .light-theme {
+            --bg: #f5f5f5;
+            --card-bg: rgba(0, 0, 0, 0.05);
+            --text: #222222;
         }
 
         body {
-            margin: 0;
-            padding: 0;
+            margin: 0; padding: 0;
             font-family: 'Cairo', sans-serif;
-            background-color: var(--bg-black);
-            color: var(--text-light);
+            background-color: var(--bg);
+            color: var(--text);
+            transition: var(--transition);
             overflow-x: hidden;
-            text-align: right;
-            position: relative;
         }
 
-        section {
-            padding: 40vh 10%;
-            min-height: 60vh;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            position: relative;
-            z-index: 10;
-        }
-
-        .reveal {
-            opacity: 0;
-            transform: translateY(50px);
-            transition: all 1s cubic-bezier(0.4, 0, 0.2, 1);
-            margin-bottom: 50px;
-        }
-
-        .reveal.active {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        .reveal p:hover, .reveal h1:hover {
-            transform: scale(1.05);
-            color: #FFB37A;
-            text-shadow: 0 0 15px rgba(255, 112, 0, 0.8);
-            transition: all 0.3s ease;
-        }
-
-        .divider {
-            width: 80px;
-            height: 5px;
-            background-color: var(--primary-orange);
-            margin: 40px 0;
-            border-radius: 10px;
-            box-shadow: 0 0 10px rgba(255, 112, 0, 0.5);
-        }
-
-        h1 { font-size: clamp(2rem, 8vw, 3.5rem); color: var(--primary-orange); margin-bottom: 30px; text-shadow: 0 0 10px rgba(255, 112, 0, 0.5); }
-        p { font-size: clamp(1.2rem, 4vw, 1.6rem); line-height: 2.2; max-width: 800px; transition: all 0.3s ease; }
-
-        .footer-ocean-section {
-            position: relative;
-            height: 600px;
-            background: linear-gradient(to bottom, var(--bg-black), #015871);
-            overflow: hidden;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            z-index: 20;
-        }
-
-        .ocean { 
-            height: 200px;
-            width: 100%;
-            position: absolute;
-            bottom: 0;
-            left: 0;
-        }
-
-        .wave {
-            background: url('https://s3-us-west-2.amazonaws.com/s.cdpn.io/85486/wave.svg') repeat-x; 
-            position: absolute;
-            top: -198px;
-            width: 6400px;
-            height: 198px;
-            animation: wave 7s cubic-bezier( 0.36, 0.45, 0.63, 0.53) infinite;
-            opacity: 0.3;
-        }
-
-        @keyframes wave {
-            0% { margin-left: 0; }
-            100% { margin-left: -1600px; }
-        }
-
-        .gift-trigger-btn {
-            background-color: var(--primary-orange);
+        /* زر تغيير الثيم */
+        .theme-toggle {
+            position: fixed;
+            top: 20px; left: 20px;
+            z-index: 1000;
+            background: var(--primary);
+            border: none;
+            padding: 10px 20px;
+            border-radius: 50px;
             color: white;
-            border: 4px solid #fff;
-            padding: 25px 60px;
-            font-size: 1.8rem;
-            font-family: 'Cairo', sans-serif;
-            border-radius: 20px;
             cursor: pointer;
-            box-shadow: 0 15px 30px rgba(255, 112, 0, 0.5);
-            animation: floatingAction 3s infinite ease-in-out;
-            transform: rotate(45deg);
-            z-index: 100;
-            transition: all 0.3s ease;
+            font-weight: bold;
+            box-shadow: 0 5px 15px rgba(255, 112, 0, 0.3);
         }
 
-        .gift-trigger-btn:hover {
-            transform: translateY(-10px) rotate(40deg) scale(1.1);
-            box-shadow: 0 20px 40px rgba(255, 112, 0, 0.8);
-            animation: shake 0.5s ease-in-out infinite;
+        /* الهيدر والشرح */
+        .main-container {
+            display: flex;
+            flex-wrap: wrap;
+            min-height: 100vh;
+            padding: 10vh 5%;
+            align-items: center;
         }
 
-        @keyframes floatingAction {
-            0%, 100% { transform: translateY(0) rotate(45deg); }
-            50% { transform: translateY(-30px) rotate(40deg); }
+        .info-side {
+            flex: 1;
+            min-width: 300px;
+            padding: 20px;
         }
 
-        @keyframes shake {
-            0%, 100% { transform: translateX(0) rotate(40deg) scale(1.1); }
-            25% { transform: translateX(-5px) rotate(40deg) scale(1.1); }
-            75% { transform: translateX(5px) rotate(40deg) scale(1.1); }
+        .info-side h1 {
+            color: var(--primary);
+            font-size: 3.5rem;
+            margin: 0;
+            text-shadow: 2px 2px 20px rgba(255, 112, 0, 0.2);
         }
 
+        .info-side p {
+            font-size: 1.4rem;
+            line-height: 1.8;
+            opacity: 0.9;
+        }
+
+        /* منطقة اللعبة */
+        .game-side {
+            flex: 1;
+            min-width: 300px;
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            padding: 40px;
+        }
+
+        .gift-box {
+            width: 120px;
+            height: 120px;
+            background: var(--card-bg);
+            border: 2px solid var(--primary);
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            cursor: pointer;
+            transition: var(--transition);
+            animation: float 3s infinite ease-in-out;
+        }
+
+        .gift-box:hover {
+            transform: scale(1.1) rotate(10deg);
+            background: var(--primary);
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
+        }
+
+        /* المودال (النتائج) */
         .modal {
             display: none;
             position: fixed;
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            background: #1a1a1a;
+            background: var(--bg);
+            border: 3px solid var(--primary);
             padding: 40px;
-            border: 2px solid var(--primary-orange);
-            border-radius: 25px;
+            border-radius: 30px;
             z-index: 2000;
             text-align: center;
-            width: 85%;
-            max-width: 450px;
-            box-shadow: 0 0 30px rgba(255, 112, 0, 0.5);
+            width: 80%; max-width: 400px;
+            box-shadow: 0 0 50px rgba(0,0,0,0.5);
         }
 
-        input {
-            padding: 15px;
-            width: 85%;
-            margin: 25px 0;
-            border-radius: 12px;
-            border: 2px solid #ccc;
-            font-size: 1.3rem;
-            text-align: center;
-            background-color: #333;
-            color: white;
-        }
-
-        input:focus {
-            border-color: var(--primary-orange);
-            box-shadow: 0 0 10px rgba(255, 112, 0, 0.5);
-            outline: none;
-        }
-
-        .action-btn {
-            background: var(--primary-orange);
+        .copy-btn {
+            background: var(--primary);
             color: white;
             border: none;
             padding: 10px 20px;
+            margin: 10px;
             border-radius: 10px;
             cursor: pointer;
-            font-size: 1rem;
-            font-weight: bold;
-            margin: 5px;
         }
 
-        .gift-box-item {
-            background: #252525;
-            padding: 15px;
-            border-radius: 15px;
-            margin-top: 15px;
-            border: 1px dashed var(--primary-orange);
-        }
-
-        .emoji-bg {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-            z-index: 1;
-        }
-
-        .floating-emoji {
-            position: absolute;
-            font-size: 2rem;
-            opacity: 0.3;
-            animation: floatEmoji 20s linear infinite;
-        }
-
-        @keyframes floatEmoji {
-            0% { transform: translateY(110vh) translateX(0) rotate(0deg); }
-            100% { transform: translateY(-10vh) translateX(0) rotate(360deg); }
+        /* البحر المتحرك بالأسفل */
+        .ocean {
+            position: fixed; bottom: 0; width: 100%; height: 5vh;
+            background: var(--primary); opacity: 0.2;
         }
 
     </style>
 </head>
 <body>
 
-    <div class="emoji-bg">
-        <span class="floating-emoji" style="left: 10%; animation-delay: 0s;">🌸</span>
-        <span class="floating-emoji" style="left: 40%; animation-delay: 5s;">✨</span>
-        <span class="floating-emoji" style="left: 70%; animation-delay: 10s;">🧡</span>
-        <span class="floating-emoji" style="left: 90%; animation-delay: 15s;">🤍</span>
-    </div>
+    <button class="theme-toggle" onclick="toggleTheme()">تغيير الثيم 🌓</button>
 
-    <section>
-        <h1 class="reveal">حياك الله يا روحي 🌸💫💓</h1>
-        <div class="divider reveal"></div>
-        <p class="reveal">انزلي تحت شوي.. فيه كلام لك</p>
-    </section>
+    <div class="main-container">
+        <div class="info-side">
+            <h1 class="reveal">شرح اللعبة ✨</h1>
+            <p class="reveal">
+                يا هلا والله.. اعتذار بسيط على اللي صار بالموقع الأول! <br>
+                الحين الموضوع صار "تحدي". قدامك 3 صناديق، واحد منها مخبي داخله العيديتين. <br>
+                اختاري بقلبك، وإذا طلع صح.. الأكواد لك!
+            </p>
+        </div>
 
-    <section>
-        <p class="reveal">السلام عليكم و رحمة الله تعالى و بركاته</p>
-        <p class="reveal">إلى اعز و اغلى مافي حياتي ~ <span style="color:var(--primary-orange); font-weight:bold;">نهى 💗</span> ~ </p>
-    </section>
-
-    <section>
-        <div class="divider reveal"></div>
-        <p class="reveal">يعلم الله اني احبك حب مايعلم به الا رب العالمين و من حبي لك اني مقدر اوصفه بالاسطر لأنها ما تكفي..</p>
-    </section>
-
-    <section>
-        <p class="reveal">عيد مبارك يا قلبي و روحي و حياتي و دنيتي و عيوني.. و يا أحلى من صحى في ليلة العيد و يا نورٌ نوّر على قلبي.</p>
-    </section>
-
-    <section>
-        <p class="reveal">و يا كل ما تذكرتها ابتسمت زي الطفل.. عيديتك تحت وما تستاهلين إلا أكثر بس تعرفيني زين 💕</p>
-    </section>
-
-    <div class="footer-ocean-section">
-        <button class="gift-trigger-btn reveal" onclick="openModal()">عيدية 🎁</button>
-        <div class="ocean">
-            <div class="wave"></div>
-            <div class="wave" style="opacity: 0.1; top: -150px; animation-delay: -2s;"></div>
+        <div class="game-side">
+            <div class="gift-box" onclick="playGame(1)">🎁</div>
+            <div class="gift-box" onclick="playGame(2)" style="animation-delay: 0.5s;">🎁</div>
+            <div class="gift-box" onclick="playGame(3)" style="animation-delay: 1s;">🎁</div>
         </div>
     </div>
 
-    <div id="pwdModal" class="modal">
-        <h3 style="color: var(--primary-orange);">أدخلي الرمز السري ✨</h3>
-        <input type="text" id="passInput" placeholder="تاريخ ميلادك (8 أرقام)">
-        <button class="action-btn" style="padding: 15px 40px; font-size: 1.2rem;" onclick="checkPass()">فتح العيديات</button>
-        <p style="color: #888; margin-top: 20px;">تبين الرمز ؟ كلميني يقلبي</p>
-        
-        <div id="giftResult" style="display:none; margin-top:20px;">
-            <div class="gift-box-item">
-                <p style="color:white; margin:0;">العيدية الأولى 🎁</p>
-                <p id="code1" style="font-size:1.2rem; color:var(--primary-orange); font-weight:bold; margin:10px 0;">[ مافيه عيديه 😔 ]</p>
-                <button class="action-btn" onclick="copyGift('code1')">نسخ</button>
-            </div>
-            
-            <div class="gift-box-item">
-                <p style="color:white; margin:0;">العيدية الثانية 🎁</p>
-                <p id="code2" style="font-size:1.2rem; color:var(--primary-orange); font-weight:bold; margin:10px 0;">[ مافيه عيديه 😔 ]</p>
-                <button class="action-btn" onclick="copyGift('code2')">نسخ</button>
-            </div>
+    <div id="resultModal" class="modal">
+        <h2 id="modalTitle">مبروووك! 🎉</h2>
+        <div id="giftContent">
+            <p>العيدية الأولى: <br> <b id="code1">XXXX-XXXX</b> <button class="copy-btn" onclick="copyCode('code1')">نسخ</button></p>
+            <hr>
+            <p>العيدية الثانية: <br> <b id="code2">YYYY-YYYY</b> <button class="copy-btn" onclick="copyCode('code2')">نسخ</button></p>
         </div>
+        <button class="copy-btn" style="background:#666" onclick="closeModal()">إغلاق</button>
     </div>
+
+    <div class="ocean"></div>
 
     <script>
+        function toggleTheme() {
+            document.body.classList.toggle('light-theme');
+        }
+
+        function playGame(boxNum) {
+            // اللعبة دائماً تفوز عشان ما نزعلها زيادة ;) 
+            const modal = document.getElementById('resultModal');
+            modal.style.display = 'block';
+            
+            // حطي أكوادك هنا
+            document.getElementById('code1').innerText = "كود_البلايستيشن_1";
+            document.getElementById('code2').innerText = "كود_البلايستيشن_2";
+        }
+
+        function closeModal() {
+            document.getElementById('resultModal').style.display = 'none';
+        }
+
+        function copyCode(id) {
+            const text = document.getElementById(id).innerText;
+            navigator.clipboard.writeText(text);
+            alert('تم نسخ الكود بنجاح! 🎮');
+        }
+
+        // انيميشن الظهور
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
-                if (entry.isIntersecting) entry.target.classList.add('active');
-                else entry.target.classList.remove('active');
+                if (entry.isIntersecting) entry.target.style.opacity = 1;
             });
-        }, { threshold: 0.2 });
-
-        document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
-
-        function openModal() { document.getElementById('pwdModal').style.display = 'block'; }
-        
-        function checkPass() {
-            const input = document.getElementById('passInput').value;
-            if (input === '07092009') {
-                document.getElementById('giftResult').style.display = 'block';
-                document.getElementById('passInput').style.display = 'none';
-                document.querySelectorAll('.action-btn')[0].style.display = 'none';
-                document.querySelector('.modal h3').innerText = 'تستاهلين يا كل الغلا! 🎉';
-            } else {
-                alert('الرمز غلط، اسألي حبيبك 😉');
-            }
-        }
-
-        function copyGift(id) {
-            const text = document.getElementById(id).innerText.replace('[ ', '').replace(' ]', '');
-            navigator.clipboard.writeText(text);
-            alert('تم نسخ العيدية بنجاح! 🎁');
-        }
+        });
+        document.querySelectorAll('.reveal').forEach(el => {
+            el.style.opacity = 0;
+            el.style.transition = "all 1s";
+            observer.observe(el);
+        });
     </script>
 </body>
 </html>
