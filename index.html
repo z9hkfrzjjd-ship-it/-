@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>  عيدية مامي 💕   </title>
+    <title>   عيدية مامي 💕  </title>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet">
     <style>
         :root { --primary: #FF7000; --bg: #111111; --text: #EEEEEE; --card-bg: rgba(255,255,255,0.05); }
@@ -72,10 +72,11 @@
 
     function toggleTheme() { document.body.classList.toggle('light-theme'); }
 
+    // هنا تعديل الاتجاهات (اليسار سالب واليمين موجب)
     function changeDir(dir) {
         if(dir==='up' && dy===0) { dx=0; dy=-grid; }
         if(dir==='down' && dy===0) { dx=0; dy=grid; }
-        if(dir==='left' && dx===0) { dx=-grid; dy=0; }
+        if(dir==='left' && dx===0) { dx=-grid; dy=0; } 
         if(dir==='right' && dx===0) { dx=grid; dy=0; }
     }
 
@@ -101,7 +102,7 @@
         snake.unshift(head);
         if(head.x === food.x && head.y === food.y) {
             score++; document.getElementById('score').innerText = `النقاط: ${score} / 10`;
-            food = {x: Math.floor(Math.random()*15)*grid, y: Math.floor(Math.random()*15)*grid};
+            food = {x: Math.floor(Math.random()*14)*grid, y: Math.floor(Math.random()*14)*grid};
             if(score >= 10) { clearInterval(gameLoop); document.getElementById('winModal').style.display='block'; }
         } else { snake.pop(); }
         
@@ -111,7 +112,8 @@
     }
 
     function copy(id) {
-        navigator.clipboard.writeText(document.getElementById(id).innerText);
+        const text = document.getElementById(id).innerText;
+        navigator.clipboard.writeText(text);
         alert("تم النسخ! 🎁");
     }
 </script>
