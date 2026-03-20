@@ -6,31 +6,47 @@
     <title>عيدية مامي 💕</title>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet">
     <style>
-        :root { --primary: #FF7000; --bg: #111111; --text: #EEEEEE; --card-bg: rgba(255,255,255,0.05); }
-        .light-theme { --bg: #f5f5f5; --text: #222222; --card-bg: rgba(0,0,0,0.05); }
+        :root { --primary: #FF7000; --bg: #111111; --text: #EEEEEE; }
+        .light-theme { --bg: #f5f5f5; --text: #222222; }
         
-        body { margin: 0; font-family: 'Cairo', sans-serif; background: var(--bg); color: var(--text); transition: 0.5s; text-align: right; }
-        
+        body { margin: 0; font-family: 'Cairo', sans-serif; background: var(--bg); color: var(--text); transition: 0.5s; text-align: right; overflow-x: hidden; }
         .theme-toggle { position: fixed; top: 10px; left: 10px; z-index: 100; background: var(--primary); color: white; border: none; padding: 10px; border-radius: 10px; cursor: pointer; }
-        
         .container { display: flex; flex-wrap: wrap; padding: 20px; min-height: 100vh; align-items: center; justify-content: center; }
-        
         .info { flex: 1; min-width: 300px; padding: 20px; }
         .info h1 { color: var(--primary); font-size: 2.5rem; }
 
         .game-box { flex: 1; display: flex; flex-direction: column; align-items: center; padding: 20px; }
         canvas { background: #000; border: 5px solid var(--primary); border-radius: 15px; max-width: 100%; }
 
-        /* أزرار التحكم الخاصة بالسوني */
-        .controls { display: grid; grid-template-columns: repeat(3, 70px); grid-template-rows: repeat(2, 70px); gap: 10px; margin-top: 20px; }
-        .control-btn { background: var(--primary); color: white; border: none; border-radius: 10px; font-size: 1.5rem; cursor: pointer; display: flex; align-items: center; justify-content: center; }
-        .btn-up { grid-column: 2; }
-        .btn-left { grid-column: 1; grid-row: 2; }
-        .btn-down { grid-column: 2; grid-row: 2; }
-        .btn-right { grid-column: 3; grid-row: 2; }
+        /* تعديل ترتيب الأزرار ليكون مطابق للواقع */
+        .controls { 
+            display: grid; 
+            grid-template-columns: 70px 70px 70px; 
+            grid-template-rows: 70px 70px; 
+            gap: 15px; 
+            margin-top: 30px; 
+        }
+        .control-btn { 
+            background: var(--primary); 
+            color: white; 
+            border: 3px solid #fff; 
+            border-radius: 15px; 
+            font-size: 1.8rem; 
+            cursor: pointer; 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            transition: 0.2s;
+        }
+        .control-btn:active { transform: scale(0.9); }
 
-        .modal { display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background: var(--bg); border: 4px solid var(--primary); padding: 30px; border-radius: 20px; z-index: 1000; text-align: center; box-shadow: 0 0 50px #000; }
-        .copy-btn { background: var(--primary); color: white; border: none; padding: 10px; border-radius: 5px; cursor: pointer; margin-top: 5px; }
+        .btn-up { grid-column: 2; grid-row: 1; }
+        .btn-left { grid-column: 1; grid-row: 2; } /* اليسار في مكانه الصحيح */
+        .btn-down { grid-column: 2; grid-row: 2; }
+        .btn-right { grid-column: 3; grid-row: 2; } /* اليمين في مكانه الصحيح */
+
+        .modal { display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background: var(--bg); border: 4px solid var(--primary); padding: 30px; border-radius: 20px; z-index: 1000; text-align: center; box-shadow: 0 0 50px #000; width: 85%; max-width: 400px; }
+        .copy-btn { background: var(--primary); color: white; border: none; padding: 10px; border-radius: 5px; cursor: pointer; margin-top: 10px; }
     </style>
 </head>
 <body>
@@ -40,11 +56,11 @@
 <div class="container">
     <div class="info">
         <h1>عيدية مامي 💕</h1>
-        <p>يا هلا والله.. لفي بالثعبان وجمعي 10 نقاط عشان تفتح الأكواد. <br> استعملي الأسهم باليد أو اضغطي على الأزرار البرتقالية تحت!</p>
+        <p>يا هلا والله.. لفي بالثعبان وجمعي 10 نقاط عشان تفتح الأكواد. <br> استعملي الأسهم باليد أو اضغطي على الأزرار البرتقالية!</p>
     </div>
 
     <div class="game-box">
-        <div id="score" style="font-weight: bold; margin-bottom: 10px;">النقاط: 0 / 10</div>
+        <div id="score" style="font-weight: bold; margin-bottom: 10px; font-size: 1.5rem;">النقاط: 0 / 10</div>
         <canvas id="snakeGame" width="300" height="300"></canvas>
         
         <div class="controls">
@@ -54,7 +70,7 @@
             <button class="control-btn btn-right" onclick="changeDir('right')">▶</button>
         </div>
         
-        <button id="startBtn" onclick="initGame()" style="margin-top: 20px; padding: 15px 30px; background: var(--primary); color: white; border: none; border-radius: 10px; font-weight: bold; cursor: pointer;">ابدأ اللعبة 🎮</button>
+        <button id="startBtn" onclick="initGame()" style="margin-top: 25px; padding: 15px 40px; background: var(--primary); color: white; border: 2px solid #fff; border-radius: 15px; font-weight: bold; cursor: pointer; font-size: 1.2rem;">ابدأ اللعبة 🎮</button>
     </div>
 </div>
 
@@ -62,7 +78,7 @@
     <h2 style="color: var(--primary);">كفووو مامي! 🎉</h2>
     <p>كود 1: <b id="c1">هنا_الكود_الأول</b> <button class="copy-btn" onclick="copy('c1')">نسخ</button></p>
     <p>كود 2: <b id="c2">هنا_الكود_الثاني</b> <button class="copy-btn" onclick="copy('c2')">نسخ</button></p>
-    <button onclick="location.reload()" style="margin-top: 15px; border: none; background: #666; color: white; padding: 10px; border-radius: 5px;">إغلاق</button>
+    <button onclick="location.reload()" style="margin-top: 20px; border: none; background: #666; color: white; padding: 10px 20px; border-radius: 10px;">إغلاق</button>
 </div>
 
 <script>
@@ -72,15 +88,13 @@
 
     function toggleTheme() { document.body.classList.toggle('light-theme'); }
 
-    // التعديل الجذري للاتجاهات لمتصفح السوني
     function changeDir(dir) {
         if(dir === 'up' && dy === 0) { dx = 0; dy = -grid; }
         else if(dir === 'down' && dy === 0) { dx = 0; dy = grid; }
-        else if(dir === 'left' && dx === 0) { dx = -grid; dy = 0; } // يسار = سالب
-        else if(dir === 'right' && dx === 0) { dx = grid; dy = 0; } // يمين = موجب
+        else if(dir === 'left' && dx === 0) { dx = -grid; dy = 0; } 
+        else if(dir === 'right' && dx === 0) { dx = grid; dy = 0; }
     }
 
-    // دعم أسهم الكيبورد/يد السوني
     document.addEventListener('keydown', e => {
         if(e.key === 'ArrowUp') changeDir('up');
         if(e.key === 'ArrowDown') changeDir('down');
@@ -98,47 +112,26 @@
 
     function main() {
         const head = {x: snake[0].x + dx, y: snake[0].y + dy};
-        
-        // الخسارة
         if(head.x < 0 || head.x >= canvas.width || head.y < 0 || head.y >= canvas.height || snake.some(s => s.x === head.x && s.y === head.y)) {
             clearInterval(gameLoop);
             alert("حاولي مرة ثانية يا مامي! ❤️");
             document.getElementById('startBtn').style.display = 'block';
             return;
         }
-
         snake.unshift(head);
-        
-        // الأكل
         if(head.x === food.x && head.y === food.y) {
             score++;
             document.getElementById('score').innerText = `النقاط: ${score} / 10`;
-            food = {
-                x: Math.floor(Math.random() * (canvas.width / grid)) * grid,
-                y: Math.floor(Math.random() * (canvas.height / grid)) * grid
-            };
-            if(score >= 10) {
-                clearInterval(gameLoop);
-                document.getElementById('winModal').style.display = 'block';
-            }
-        } else {
-            snake.pop();
-        }
-        
-        // الرسم
-        ctx.fillStyle = "black";
-        ctx.fillRect(0, 0, canvas.width, canvas.height);
-        
-        ctx.fillStyle = "#FF7000";
-        snake.forEach(s => ctx.fillRect(s.x, s.y, grid - 2, grid - 2));
-        
-        ctx.fillStyle = "red";
-        ctx.fillRect(food.x, food.y, grid - 2, grid - 2);
+            food = { x: Math.floor(Math.random() * 14) * grid, y: Math.floor(Math.random() * 14) * grid };
+            if(score >= 10) { clearInterval(gameLoop); document.getElementById('winModal').style.display = 'block'; }
+        } else { snake.pop(); }
+        ctx.fillStyle = "black"; ctx.fillRect(0, 0, canvas.width, canvas.height);
+        ctx.fillStyle = "#FF7000"; snake.forEach(s => ctx.fillRect(s.x, s.y, grid - 2, grid - 2));
+        ctx.fillStyle = "red"; ctx.fillRect(food.x, food.y, grid - 2, grid - 2);
     }
 
     function copy(id) {
-        const text = document.getElementById(id).innerText;
-        navigator.clipboard.writeText(text);
+        navigator.clipboard.writeText(document.getElementById(id).innerText);
         alert("تم النسخ بنجاح! 🎁");
     }
 </script>
