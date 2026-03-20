@@ -3,327 +3,117 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>  عيدية مامي 💕 </title>
+    <title>  عيدية مامي 💕   </title>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet">
     <style>
-        :root {
-            --primary: #FF7000;
-            --bg: #111111;
-            --card-bg: rgba(255, 255, 255, 0.05);
-            --text: #EEEEEE;
-            --snake: #4CAF50;
-            --food: #FF3B30;
-            --transition: all 0.4s ease;
-        }
+        :root { --primary: #FF7000; --bg: #111111; --text: #EEEEEE; --card-bg: rgba(255,255,255,0.05); }
+        .light-theme { --bg: #f5f5f5; --text: #222222; --card-bg: rgba(0,0,0,0.05); }
+        
+        body { margin: 0; font-family: 'Cairo', sans-serif; background: var(--bg); color: var(--text); transition: 0.5s; text-align: right; }
+        
+        .theme-toggle { position: fixed; top: 10px; left: 10px; z-index: 100; background: var(--primary); color: white; border: none; padding: 10px; border-radius: 10px; cursor: pointer; }
+        
+        .container { display: flex; flex-wrap: wrap; padding: 20px; min-height: 100vh; align-items: center; justify-content: center; }
+        
+        .info { flex: 1; min-width: 300px; padding: 20px; }
+        .info h1 { color: var(--primary); font-size: 2.5rem; }
 
-        .light-theme {
-            --bg: #f5f5f5;
-            --card-bg: rgba(0, 0, 0, 0.05);
-            --text: #222222;
-        }
+        .game-box { flex: 1; display: flex; flex-direction: column; align-items: center; padding: 20px; }
+        canvas { background: #000; border: 5px solid var(--primary); border-radius: 15px; max-width: 100%; }
 
-        body {
-            margin: 0; padding: 0;
-            font-family: 'Cairo', sans-serif;
-            background-color: var(--bg);
-            color: var(--text);
-            transition: var(--transition);
-            overflow-x: hidden;
-        }
+        /* أزرار التحكم الخاصة بالسوني */
+        .controls { display: grid; grid-template-columns: repeat(3, 60px); grid-template-rows: repeat(2, 60px); gap: 10px; margin-top: 20px; }
+        .control-btn { background: var(--primary); color: white; border: none; border-radius: 10px; font-size: 1.5rem; cursor: pointer; display: flex; align-items: center; justify-content: center; }
+        .btn-up { grid-column: 2; }
+        .btn-left { grid-column: 1; grid-row: 2; }
+        .btn-down { grid-column: 2; grid-row: 2; }
+        .btn-right { grid-column: 3; grid-row: 2; }
 
-        /* زر تغيير الثيم (فوق يسار) */
-        .theme-toggle {
-            position: fixed;
-            top: 20px; left: 20px;
-            z-index: 1000;
-            background: var(--primary);
-            border: 4px solid #fff;
-            padding: 10px 20px;
-            border-radius: 50px;
-            color: white;
-            cursor: pointer;
-            font-weight: bold;
-            box-shadow: 0 5px 15px rgba(255, 112, 0, 0.3);
-            font-family: 'Cairo';
-        }
-
-        /* الهيدر والشرح */
-        .main-container {
-            display: flex;
-            flex-wrap: wrap;
-            min-height: 100vh;
-            padding: 10vh 5%;
-            align-items: center;
-        }
-
-        .info-side {
-            flex: 1;
-            min-width: 300px;
-            padding: 20px;
-        }
-
-        .info-side h1 {
-            color: var(--primary);
-            font-size: 3.5rem;
-            margin: 0;
-            text-shadow: 2px 2px 20px rgba(255, 112, 0, 0.2);
-        }
-
-        .info-side p {
-            font-size: 1.4rem;
-            line-height: 1.8;
-            opacity: 0.9;
-        }
-
-        /* منطقة اللعبة */
-        .game-side {
-            flex: 1;
-            min-width: 320px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            padding: 20px;
-        }
-
-        #gameCanvas {
-            background: var(--card-bg);
-            border: 4px solid var(--primary);
-            border-radius: 20px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
-            backdrop-filter: blur(10px);
-        }
-
-        #score {
-            font-size: 1.5rem;
-            margin: 10px 0;
-            font-weight: bold;
-            color: var(--primary);
-        }
-
-        .action-btn {
-            background: var(--primary);
-            color: white;
-            border: none;
-            padding: 10px 25px;
-            border-radius: 10px;
-            cursor: pointer;
-            font-family: 'Cairo';
-            margin: 10px;
-        }
-
-        /* المودال (النتائج) */
-        .modal {
-            display: none;
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            background: var(--bg);
-            border: 3px solid var(--primary);
-            padding: 40px;
-            border-radius: 30px;
-            z-index: 2000;
-            text-align: center;
-            width: 80%; max-width: 400px;
-            box-shadow: 0 0 50px rgba(0,0,0,0.5);
-        }
-
-        .codes-box {
-            display: none;
-            margin-top: 20px;
-            background: #222;
-            padding: 20px;
-            border-radius: 20px;
-            border: 2px dashed var(--primary);
-        }
-
-        /* البحر المتحرك بالأسفل */
-        .ocean {
-            position: fixed; bottom: 0; width: 100%; height: 5vh;
-            background: var(--primary); opacity: 0.1; z-index: 1;
-        }
-
+        .modal { display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background: var(--bg); border: 4px solid var(--primary); padding: 30px; border-radius: 20px; z-index: 1000; text-align: center; box-shadow: 0 0 50px #000; }
+        .copy-btn { background: var(--primary); color: white; border: none; padding: 10px; border-radius: 5px; cursor: pointer; margin-top: 5px; }
     </style>
 </head>
-<body class="light-theme"> <button class="theme-toggle" onclick="toggleTheme()">🌓 تغيير الثيم</button>
+<body>
 
-    <div class="main-container">
-        <div class="info-side">
-            <h1 class="reveal">تحدي الثعبان 🐍✨</h1>
-            <p class="reveal">
-                يا هلا والله.. اعتذار بسيط على اللي صار بالموقع الأول! <br>
-                الحين الموضوع صار "تحدي" حقيقي. <br>
-                لازم تلعبين لعبة الثعبان وتجمعين **10 نقاط** (تأكلين 10 تفاحات). <br>
-                أول ما تفوزين، الأكواد بتطلع لك فوراً! <br>
-                استخدمي الأسهم أو اللمس للتحكم. بالتوفيق! 🚀
-            </p>
-        </div>
+<button class="theme-toggle" onclick="toggleTheme()">🌓 ثيم</button>
 
-        <div class="game-side">
-            <div id="score">النقاط: 0 / 10</div>
-            <canvas id="gameCanvas" width="300" height="300"></canvas>
-            <button class="action-btn" id="startBtn" onclick="startGame()">ابدأ اللعبة 🎮</button>
-        </div>
+<div class="container">
+    <div class="info">
+        <h1>تحدي العيدية 🐍</h1>
+        <p>يا هلا بك.. لفي بالثعبان وجمعي 10 نقاط عشان تفتح الأكواد. <br> استعملي الأسهم باليد أو اضغطي على الأزرار البرتقالية تحت!</p>
     </div>
 
-    <div id="resultModal" class="modal">
-        <h2 id="modalTitle">مبروووك! 🎉 جبتيها 🐍</h2>
-        <div id="giftContent" class="codes-box" style="display:block;">
-            <p>كود البلايستيشن الأول: <br> <b id="code1">XXXX-XXXX-XXXX</b> <button class="action-btn" onclick="copy('code1')">نسخ</button></p>
-            <hr>
-            <p>كود البلايستيشن الثاني: <br> <b id="code2">YYYY-YYYY-YYYY</b> <button class="action-btn" onclick="copy('code2')">نسخ</button></p>
-        </div>
-        <button class="action-btn" style="background:#666" onclick="closeModal()">إغلاق</button>
-    </div>
-
-    <div class="ocean"></div>
-
-    <script>
-        // 1. نظام تغيير الثيم (مصلح وشغال)
-        function toggleTheme() {
-            document.body.classList.toggle('light-theme');
-        }
-
-        // 2. برمجة لعبة الثعبان
-        const canvas = document.getElementById('gameCanvas');
-        const ctx = canvas.getContext('2d');
-        const scoreEl = document.getElementById('score');
-        const startBtn = document.getElementById('startBtn');
-        const modal = document.getElementById('resultModal');
-
-        const grid = 15; // حجم المربع الواحد
-        let snake = [{x: 10 * grid, y: 10 * grid}];
-        let food = {};
-        let direction = 'right';
-        let score = 0;
-        let gameInterval;
-        let isGameRunning = false;
-
-        // وضع التفاحة
-        function placeFood() {
-            food = {
-                x: Math.floor(Math.random() * (canvas.width / grid)) * grid,
-                y: Math.floor(Math.random() * (canvas.height / grid)) * grid
-            };
-        }
-
-        // رسم اللعبة
-        function draw() {
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-            // رسم الثعبان
-            ctx.fillStyle = '#4CAF50';
-            snake.forEach(part => {
-                ctx.fillRect(part.x, part.y, grid - 2, grid - 2);
-            });
-
-            // رسم التفاحة
-            ctx.fillStyle = '#FF3B30';
-            ctx.fillRect(food.x, food.y, grid - 2, grid - 2);
-
-            // حركة الرأس
-            let headX = snake[0].x;
-            let headY = snake[0].y;
-
-            if (direction === 'left') headX -= grid;
-            if (direction === 'up') headY -= grid;
-            if (direction === 'right') headX += grid;
-            if (direction === 'down') headY += grid;
-
-            // أكل التفاحة
-            if (headX === food.x && headY === food.y) {
-                score++;
-                scoreEl.innerText = "النقاط: " + score + " / 10";
-                placeFood();
-                // شرط الفوز!
-                if (score >= 10) {
-                    endGame(true);
-                    return;
-                }
-            } else {
-                snake.pop(); // حذف الذيل إذا لم يأكل
-            }
-
-            // إضافة رأس جديد
-            const newHead = {x: headX, y: headY};
-
-            // اصطدام بالجدار أو بنفسه
-            if (headX < 0 || headX >= canvas.width || headY < 0 || headY >= canvas.height || collision(newHead, snake)) {
-                endGame(false);
-                return;
-            }
-
-            snake.unshift(newHead); // إضافة الرأس الجديد في البداية
-        }
-
-        // التحقق من الاصطدام بالذيل
-        function collision(head, array) {
-            for (let i = 1; i < array.length; i++) {
-                if (head.x === array[i].x && head.y === array[i].y) return true;
-            }
-            return false;
-        }
-
-        // التحكم (أسهم الجوال أو الكيبورد)
-        document.addEventListener('keydown', e => {
-            if (!isGameRunning) return;
-            if (e.key === 'ArrowLeft' && direction !== 'right') direction = 'left';
-            if (e.key === 'ArrowUp' && direction !== 'down') direction = 'up';
-            if (e.key === 'ArrowRight' && direction !== 'left') direction = 'right';
-            if (e.key === 'ArrowDown' && direction !== 'up') direction = 'down';
-        });
-
-        // تشغيل اللعبة
-        function startGame() {
-            if (isGameRunning) return;
-            isGameRunning = true;
-            startBtn.style.display = 'none';
-            score = 0;
-            scoreEl.innerText = "النقاط: 0 / 10";
-            snake = [{x: 10 * grid, y: 10 * grid}];
-            direction = 'right';
-            placeFood();
-            gameInterval = setInterval(draw, 100); // سرعة اللعبة
-        }
-
-        // نهاية اللعبة (فوز أو خسارة)
-        function endGame(isWin) {
-            clearInterval(gameInterval);
-            isGameRunning = false;
-            startBtn.style.display = 'inline-block';
-            startBtn.innerText = "أعد اللعبة 🔄";
-
-            if (isWin) {
-                modal.style.display = 'block';
-                // حطي أكوادك هنا (الأكواد الحقيقية)
-                document.getElementById('code1').innerText = "كود_جرير_الأول";
-                document.getElementById('code2').innerText = "كود_جرير_الثاني";
-            } else {
-                alert("خسرتي! 😂 جربي مرة ثانية عشان تاخذين الأكواد");
-            }
-        }
-
-        // وظائف المودال والنسخ
-        function closeModal() { modal.style.display = 'none'; }
+    <div class="game-box">
+        <div id="score" style="font-weight: bold; margin-bottom: 10px;">النقاط: 0 / 10</div>
+        <canvas id="snakeGame" width="300" height="300"></canvas>
         
-        function copy(id) {
-            const text = document.getElementById(id).innerText;
-            navigator.clipboard.writeText(text);
-            alert('تم نسخ الكود بنجاح! 🎮');
-        }
+        <div class="controls">
+            <button class="control-btn btn-up" onclick="changeDir('up')">▲</button>
+            <button class="control-btn btn-left" onclick="changeDir('left')">◀</button>
+            <button class="control-btn btn-down" onclick="changeDir('down')">▼</button>
+            <button class="control-btn btn-right" onclick="changeDir('right')">▶</button>
+        </div>
+        
+        <button id="startBtn" onclick="initGame()" style="margin-top: 20px; padding: 15px 30px; background: var(--primary); color: white; border: none; border-radius: 10px; font-weight: bold; cursor: pointer;">ابدأ اللعبة 🎮</button>
+    </div>
+</div>
 
-        // انيميشن الظهور السلس
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) entry.target.style.opacity = 1;
-            });
-        });
-        document.querySelectorAll('.reveal').forEach(el => {
-            el.style.opacity = 0;
-            el.style.transition = "all 1s";
-            observer.observe(el);
-        });
-    </script>
+<div id="winModal" class="modal">
+    <h2 style="color: var(--primary);">كفووو! هذي عيديتك 🎉</h2>
+    <p>كود 1: <b id="c1">اضع_الكود_هنا</b> <button class="copy-btn" onclick="copy('c1')">نسخ</button></p>
+    <p>كود 2: <b id="c2">اضع_الكود_هنا</b> <button class="copy-btn" onclick="copy('c2')">نسخ</button></p>
+    <button onclick="location.reload()" style="margin-top: 15px; border: none; background: #666; color: white; padding: 10px; border-radius: 5px;">إغلاق</button>
+</div>
+
+<script>
+    const canvas = document.getElementById('snakeGame');
+    const ctx = canvas.getContext('2d');
+    let grid = 20, snake = [{x:160, y:160}], food = {x:80, y:80}, dx = grid, dy = 0, score = 0, gameLoop;
+
+    function toggleTheme() { document.body.classList.toggle('light-theme'); }
+
+    function changeDir(dir) {
+        if(dir==='up' && dy===0) { dx=0; dy=-grid; }
+        if(dir==='down' && dy===0) { dx=0; dy=grid; }
+        if(dir==='left' && dx===0) { dx=-grid; dy=0; }
+        if(dir==='right' && dx===0) { dx=grid; dy=0; }
+    }
+
+    document.addEventListener('keydown', e => {
+        if(e.key==='ArrowUp') changeDir('up');
+        if(e.key==='ArrowDown') changeDir('down');
+        if(e.key==='ArrowLeft') changeDir('left');
+        if(e.key==='ArrowRight') changeDir('right');
+    });
+
+    function initGame() {
+        document.getElementById('startBtn').style.display = 'none';
+        score = 0; snake = [{x:160, y:160}]; dx = grid; dy = 0;
+        if(gameLoop) clearInterval(gameLoop);
+        gameLoop = setInterval(main, 150);
+    }
+
+    function main() {
+        const head = {x: snake[0].x + dx, y: snake[0].y + dy};
+        if(head.x < 0 || head.x >= canvas.width || head.y < 0 || head.y >= canvas.height || snake.some(s => s.x === head.x && s.y === head.y)) {
+            alert("حاولي مرة ثانية!"); initGame(); return;
+        }
+        snake.unshift(head);
+        if(head.x === food.x && head.y === food.y) {
+            score++; document.getElementById('score').innerText = `النقاط: ${score} / 10`;
+            food = {x: Math.floor(Math.random()*15)*grid, y: Math.floor(Math.random()*15)*grid};
+            if(score >= 10) { clearInterval(gameLoop); document.getElementById('winModal').style.display='block'; }
+        } else { snake.pop(); }
+        
+        ctx.fillStyle = "black"; ctx.fillRect(0,0,300,300);
+        ctx.fillStyle = "#FF7000"; snake.forEach(s => ctx.fillRect(s.x, s.y, grid-2, grid-2));
+        ctx.fillStyle = "red"; ctx.fillRect(food.x, food.y, grid-2, grid-2);
+    }
+
+    function copy(id) {
+        navigator.clipboard.writeText(document.getElementById(id).innerText);
+        alert("تم النسخ! 🎁");
+    }
+</script>
 </body>
 </html>
