@@ -3,45 +3,197 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>متجر الأناقة</title>
+    <title>متجر فيجن - النمط الزجاجي</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet">
+
     <style>
-        :root { --main-color: #d4af37; --dark-color: #1a1a1a; }
-        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: #f4f4f4; margin: 0; }
-        header { background: var(--dark-color); color: white; padding: 20px; text-align: center; }
-        .container { display: flex; flex-wrap: wrap; justify-content: center; padding: 20px; }
-        .product-card { background: white; border-radius: 15px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); margin: 15px; width: 280px; overflow: hidden; transition: 0.3s; }
-        .product-card:hover { transform: translateY(-10px); }
-        .product-img { width: 100%; height: 200px; background: #eee; display: flex; align-items: center; justify-content: center; color: #888; }
-        .product-info { padding: 15px; text-align: center; }
-        .price { color: var(--main-color); font-weight: bold; font-size: 1.2em; }
-        .btn-buy { background: #25d366; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer; width: 100%; font-weight: bold; }
+        /* تعريف متغيرات الألوان والنمط */
+        :root {
+            --bg-color: #f0f2f5; /* لون خلفية ناعم ومريح */
+            --glass-bg: rgba(255, 255, 255, 0.4); /* خلفية زجاجية شفافة */
+            --glass-border: rgba(255, 255, 255, 0.3); /* حدود زجاجية */
+            --glass-blur: blur(10px); /* درجة الضبابية الزجاجية */
+            --main-text: #333; /* لون نص أساسي مريح */
+            --accent-color: #25d366; /* لون واتساب المميز */
+            --shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.15); /* ظل ناعم */
+        }
+
+        /* تنسيقات عامة */
+        body {
+            font-family: 'Cairo', sans-serif;
+            background: var(--bg-color);
+            background-image: linear-gradient(135deg, #f0f2f5 0%, #dbe2e9 100%); /* تدرج خلفية خفيف جداً */
+            margin: 0;
+            padding: 0;
+            color: var(--main-text);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        /* تنسيق الهيدر */
+        header {
+            width: 100%;
+            padding: 20px 0;
+            background: var(--glass-bg);
+            backdrop-filter: var(--glass-blur);
+            -webkit-backdrop-filter: var(--glass-blur);
+            border-bottom: 1px solid var(--glass-border);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            text-align: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        header h1 { margin: 0; font-weight: 700; font-size: 1.8em; color: var(--main-text); }
+        header p { margin: 5px 0 0; font-size: 0.9em; opacity: 0.8; }
+
+        /* حاوية المنتجات */
+        .products-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+            width: 90%;
+            max-width: 1200px;
+            padding: 40px 0;
+        }
+
+        /* تنسيق بطاقة المنتج (الزجاجية) */
+        .product-card {
+            background: var(--glass-bg);
+            backdrop-filter: var(--glass-blur);
+            -webkit-backdrop-filter: var(--glass-blur);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            box-shadow: var(--shadow);
+            padding: 20px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .product-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 12px 40px 0 rgba(31, 38, 135, 0.25);
+        }
+
+        .product-img {
+            width: 100%;
+            height: 180px;
+            background: #eee;
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #888;
+            font-size: 0.9em;
+            margin-bottom: 15px;
+            border: 1px solid rgba(0,0,0,0.03);
+        }
+
+        .product-info h3 { margin: 0 0 10px; font-weight: 700; font-size: 1.3em; }
+        .product-info p { margin: 0; font-size: 0.9em; opacity: 0.7; line-height: 1.6; }
+        
+        .product-footer {
+            margin-top: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .price { font-weight: 700; font-size: 1.4em; color: var(--main-text); }
+        .currency { font-size: 0.7em; }
+
+        /* زر واتساب */
+        .btn-whatsapp {
+            background: var(--accent-color);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 50px;
+            font-family: 'Cairo', sans-serif;
+            font-weight: 700;
+            font-size: 0.9em;
+            cursor: pointer;
+            text-decoration: none;
+            transition: 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .btn-whatsapp:hover {
+            background: #1eb956;
+            transform: scale(1.05);
+        }
+
+        /* التجاوب مع الجوال */
+        @media (max-width: 600px) {
+            .products-container { grid-template-columns: 1fr; }
+            header h1 { font-size: 1.5em; }
+        }
     </style>
 </head>
 <body>
-    <header><h1>متجر الأناقة الرقمي</h1><p>أفخم الساعات والنظارات</p></header>
-    <div class="container">
+
+    <header>
+        <h1>فيجن للأجهزة الذكية</h1>
+        <p>عالم من التقنية بين يديك</p>
+    </header>
+
+    <div class="products-container">
         <div class="product-card">
-            <div class="product-img">صورة الساعة</div>
-            <div class="product-info">
-                <h3>ساعة رويال كلاسيك</h3>
-                <p class="price">250 ريال</p>
-                <button class="btn-buy" onclick="sendWhatsApp('ساعة رويال كلاسيك', '250')">اطلب عبر واتساب</button>
+            <div>
+                <div class="product-img">صورة هاتف ذكي</div>
+                <div class="product-info">
+                    <h3>سماعات اير بودز برو</h3>
+                    <p>عزل ضوضاء، صوت نقي، بطارية تدوم طويلاً.</p>
+                </div>
+            </div>
+            <div class="product-footer">
+                <div class="price">450 <span class="currency">ر.س</span></div>
+                <button class="btn-whatsapp" onclick="sendWhatsApp('سماعات اير بودز برو', '450')">اطلب الآن</button>
             </div>
         </div>
+
         <div class="product-card">
-            <div class="product-img">صورة النظارة</div>
-            <div class="product-info">
-                <h3>نظارة شمسية فاخرة</h3>
-                <p class="price">180 ريال</p>
-                <button class="btn-buy" onclick="sendWhatsApp('نظارة شمسية فاخرة', '180')">اطلب عبر واتساب</button>
+            <div>
+                <div class="product-img">صورة ساعة ذكية</div>
+                <div class="product-info">
+                    <h3>ساعة فيجن الجيل السادس</h3>
+                    <p>مقاومة للماء، قياس نبضات القلب، شاشة OLED.</p>
+                </div>
+            </div>
+            <div class="product-footer">
+                <div class="price">680 <span class="currency">ر.س</span></div>
+                <button class="btn-whatsapp" onclick="sendWhatsApp('ساعة فيجن الجيل السادس', '680')">اطلب الآن</button>
+            </div>
+        </div>
+
+        <div class="product-card">
+            <div>
+                <div class="product-img">صورة شاحن سريع</div>
+                <div class="product-info">
+                    <h3>شاحن لاسلكي مغناطيسي</h3>
+                    <p>قوة شحن 15 واط، آمن ومستقر، متوافق مع كافة الأجهزة.</p>
+                </div>
+            </div>
+            <div class="product-footer">
+                <div class="price">120 <span class="currency">ر.س</span></div>
+                <button class="btn-whatsapp" onclick="sendWhatsApp('شاحن لاسلكي مغناطيسي', '120')">اطلب الآن</button>
             </div>
         </div>
     </div>
 
     <script>
-        function sendWhatsApp(name, price) {
-            const phone = "9665XXXXXXXX"; // رقم الزبون هنا
-            const msg = `مرحباً، أود طلب: ${name}%0Aالسعر: ${price} ريال`;
+        function sendWhatsApp(productName, price) {
+            const phone = "9665XXXXXXXX"; // ضع رقم الزبون هنا (بالصيغة الدولية)
+            const msg = `مرحباً، أود طلب: ${productName}%0Aالسعر: ${price} ر.س`;
             window.open(`https://wa.me/${phone}?text=${msg}`, '_blank');
         }
     </script>
