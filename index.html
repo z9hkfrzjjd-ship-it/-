@@ -3,199 +3,184 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>متجر فيجن - النمط الزجاجي</title>
-    
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet">
-
+    <title>متجر النجوم | Dark Store</title>
     <style>
-        /* تعريف متغيرات الألوان والنمط */
+        /* الألوان والأساسيات */
         :root {
-            --bg-color: #f0f2f5; /* لون خلفية ناعم ومريح */
-            --glass-bg: rgba(255, 255, 255, 0.4); /* خلفية زجاجية شفافة */
-            --glass-border: rgba(255, 255, 255, 0.3); /* حدود زجاجية */
-            --glass-blur: blur(10px); /* درجة الضبابية الزجاجية */
-            --main-text: #333; /* لون نص أساسي مريح */
-            --accent-color: #25d366; /* لون واتساب المميز */
-            --shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.15); /* ظل ناعم */
+            --bg-color: #0b0e14; /* خلفية غامقة مريحة */
+            --card-bg: #161b22;
+            --main-accent: #ffd700; /* لون النجوم والترحيب */
+            --text-color: #e6edf3;
+            --whatsapp-green: #25d366;
         }
 
-        /* تنسيقات عامة */
         body {
-            font-family: 'Cairo', sans-serif;
-            background: var(--bg-color);
-            background-image: linear-gradient(135deg, #f0f2f5 0%, #dbe2e9 100%); /* تدرج خلفية خفيف جداً */
             margin: 0;
             padding: 0;
-            color: var(--main-text);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            overflow-x: hidden;
         }
 
-        /* تنسيق الهيدر */
+        /* خلفية النجوم المتحركة */
+        .stars-container {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            z-index: -1;
+            background: radial-gradient(ellipse at bottom, #1B2735 0%, #090A0F 100%);
+        }
+
+        /* قسم الترحيب */
         header {
-            width: 100%;
-            padding: 20px 0;
-            background: var(--glass-bg);
-            backdrop-filter: var(--glass-blur);
-            -webkit-backdrop-filter: var(--glass-blur);
-            border-bottom: 1px solid var(--glass-border);
-            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
             text-align: center;
-            position: sticky;
-            top: 0;
-            z-index: 100;
+            padding: 60px 20px;
+            background: rgba(22, 27, 34, 0.8);
+            border-bottom: 2px solid var(--main-accent);
+            margin-bottom: 40px;
         }
 
-        header h1 { margin: 0; font-weight: 700; font-size: 1.8em; color: var(--main-text); }
-        header p { margin: 5px 0 0; font-size: 0.9em; opacity: 0.8; }
+        header h1 {
+            color: var(--main-accent);
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            text-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+        }
 
-        /* حاوية المنتجات */
-        .products-container {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 25px;
-            width: 90%;
+        header p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+
+        /* حاوية المنتجات - متجاوبة تلقائياً */
+        .container {
             max-width: 1200px;
-            padding: 40px 0;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); /* هذا السطر يخلي الموقع يضبط نفسه على الجوال واللابتوب */
+            gap: 25px;
+            padding: 20px;
         }
 
-        /* تنسيق بطاقة المنتج (الزجاجية) */
+        /* كرت المنتج */
         .product-card {
-            background: var(--glass-bg);
-            backdrop-filter: var(--glass-blur);
-            -webkit-backdrop-filter: var(--glass-blur);
-            border: 1px solid var(--glass-border);
-            border-radius: 20px;
-            box-shadow: var(--shadow);
-            padding: 20px;
+            background: var(--card-bg);
+            border-radius: 15px;
+            overflow: hidden;
+            border: 1px solid #30363d;
             transition: transform 0.3s ease, box-shadow 0.3s ease;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
         }
 
         .product-card:hover {
-            transform: translateY(-8px);
-            box-shadow: 0 12px 40px 0 rgba(31, 38, 135, 0.25);
+            transform: translateY(-10px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.5);
+            border-color: var(--main-accent);
         }
 
-        .product-img {
+        .product-image {
             width: 100%;
-            height: 180px;
-            background: #eee;
-            border-radius: 15px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: #888;
-            font-size: 0.9em;
+            height: 250px;
+            object-fit: cover;
+            background: #21262d;
+        }
+
+        .product-info {
+            padding: 20px;
+            text-align: center;
+        }
+
+        .product-info h3 {
+            margin: 0 0 10px 0;
+            font-size: 1.4rem;
+        }
+
+        .price {
+            color: var(--main-accent);
+            font-size: 1.3rem;
+            font-weight: bold;
             margin-bottom: 15px;
-            border: 1px solid rgba(0,0,0,0.03);
+            display: block;
         }
 
-        .product-info h3 { margin: 0 0 10px; font-weight: 700; font-size: 1.3em; }
-        .product-info p { margin: 0; font-size: 0.9em; opacity: 0.7; line-height: 1.6; }
-        
-        .product-footer {
-            margin-top: 20px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .price { font-weight: 700; font-size: 1.4em; color: var(--main-text); }
-        .currency { font-size: 0.7em; }
-
-        /* زر واتساب */
+        /* زر الواتساب */
         .btn-whatsapp {
-            background: var(--accent-color);
+            background-color: var(--whatsapp-green);
             color: white;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 50px;
-            font-family: 'Cairo', sans-serif;
-            font-weight: 700;
-            font-size: 0.9em;
-            cursor: pointer;
             text-decoration: none;
-            transition: 0.3s ease;
-            display: flex;
-            align-items: center;
-            gap: 5px;
+            padding: 12px 20px;
+            border-radius: 8px;
+            display: inline-block;
+            font-weight: bold;
+            width: 80%;
+            transition: 0.3s;
         }
 
         .btn-whatsapp:hover {
-            background: #1eb956;
+            filter: brightness(1.1);
             transform: scale(1.05);
         }
 
-        /* التجاوب مع الجوال */
-        @media (max-width: 600px) {
-            .products-container { grid-template-columns: 1fr; }
-            header h1 { font-size: 1.5em; }
+        /* لمسة الايموجيات في الخلفية */
+        .emoji-bg {
+            position: absolute;
+            font-size: 20px;
+            opacity: 0.2;
+            user-select: none;
         }
+
     </style>
 </head>
 <body>
 
+    <div class="stars-container"></div>
+
     <header>
-        <h1>فيجن للأجهزة الذكية</h1>
-        <p>عالم من التقنية بين يديك</p>
+        <h1>✨ مرحباً بك في متجر الأناقة ✨</h1>
+        <p>تشكيلة فخمة اخترناها لك بعناية تحت ضوء النجوم</p>
     </header>
 
-    <div class="products-container">
+    <div class="container">
         <div class="product-card">
-            <div>
-                <div class="product-img">صورة هاتف ذكي</div>
-                <div class="product-info">
-                    <h3>سماعات اير بودز برو</h3>
-                    <p>عزل ضوضاء، صوت نقي، بطارية تدوم طويلاً.</p>
-                </div>
-            </div>
-            <div class="product-footer">
-                <div class="price">450 <span class="currency">ر.س</span></div>
-                <button class="btn-whatsapp" onclick="sendWhatsApp('سماعات اير بودز برو', '450')">اطلب الآن</button>
+            <img src="https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=500" alt="ساعة" class="product-image">
+            <div class="product-info">
+                <h3>ساعة ملكية سوداء</h3>
+                <span class="price">299 ريال</span>
+                <a href="https://wa.me/9665XXXXXXXX?text=أريد طلب الساعة الملكية" class="btn-whatsapp">اطلب عبر واتساب 💬</a>
             </div>
         </div>
 
         <div class="product-card">
-            <div>
-                <div class="product-img">صورة ساعة ذكية</div>
-                <div class="product-info">
-                    <h3>ساعة فيجن الجيل السادس</h3>
-                    <p>مقاومة للماء، قياس نبضات القلب، شاشة OLED.</p>
-                </div>
-            </div>
-            <div class="product-footer">
-                <div class="price">680 <span class="currency">ر.س</span></div>
-                <button class="btn-whatsapp" onclick="sendWhatsApp('ساعة فيجن الجيل السادس', '680')">اطلب الآن</button>
+            <img src="https://images.unsplash.com/photo-1572635196237-14b3f281503f?w=500" alt="نظارة" class="product-image">
+            <div class="product-info">
+                <h3>نظارة كلاسيك فخمة</h3>
+                <span class="price">150 ريال</span>
+                <a href="https://wa.me/9665XXXXXXXX?text=أريد طلب النظارة الكلاسيك" class="btn-whatsapp">اطلب عبر واتساب 💬</a>
             </div>
         </div>
 
         <div class="product-card">
-            <div>
-                <div class="product-img">صورة شاحن سريع</div>
-                <div class="product-info">
-                    <h3>شاحن لاسلكي مغناطيسي</h3>
-                    <p>قوة شحن 15 واط، آمن ومستقر، متوافق مع كافة الأجهزة.</p>
-                </div>
-            </div>
-            <div class="product-footer">
-                <div class="price">120 <span class="currency">ر.س</span></div>
-                <button class="btn-whatsapp" onclick="sendWhatsApp('شاحن لاسلكي مغناطيسي', '120')">اطلب الآن</button>
+            <img src="https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=500" alt="حذاء" class="product-image">
+            <div class="product-info">
+                <h3>حذاء رياضي الترا</h3>
+                <span class="price">420 ريال</span>
+                <a href="https://wa.me/9665XXXXXXXX?text=أريد طلب الحذاء الرياضي" class="btn-whatsapp">اطلب عبر واتساب 💬</a>
             </div>
         </div>
     </div>
 
     <script>
-        function sendWhatsApp(productName, price) {
-            const phone = "9665XXXXXXXX"; // ضع رقم الزبون هنا (بالصيغة الدولية)
-            const msg = `مرحباً، أود طلب: ${productName}%0Aالسعر: ${price} ر.س`;
-            window.open(`https://wa.me/${phone}?text=${msg}`, '_blank');
+        // حركة بسيطة لإضافة نجوم عشوائية في الخلفية
+        const container = document.querySelector('.stars-container');
+        for (let i = 0; i < 50; i++) {
+            const star = document.createElement('div');
+            star.className = 'emoji-bg';
+            star.innerHTML = '⭐';
+            star.style.left = Math.random() * 100 + '%';
+            star.style.top = Math.random() * 100 + '%';
+            star.style.fontSize = (Math.random() * 10 + 10) + 'px';
+            container.appendChild(star);
         }
     </script>
+
 </body>
 </html>
